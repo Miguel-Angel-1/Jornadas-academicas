@@ -22,12 +22,12 @@
                             {% if column in ['aP', 'aM', 'Nombres'] %}
                                 <input type="text" name="{{ column }}" id="{{ column }}" value="{{ value if value is not none else '' }}">
                             {% elif column == 'ate' %}
-                                <select name="{{ column }}" id="{{ column }}">
+                                <select name="{{ column }}" id="{{ column }}" class="custom-select">
                                     <option value="1" {{ 'selected' if value == 1 else '' }}>Atendido</option>
                                     <option value="0" {{ 'selected' if value == 0 else '' }}>No atendido</option>
                                 </select>
                             {% elif column == 'est' %}
-                                <select name="{{ column }}" id="{{ column }}">
+                                <select name="{{ column }}" id="{{ column }}" class="custom-select">
                                     <option value="1" {{ 'selected' if value == 1 else '' }}>Liberado</option>
                                     <option value="0" {{ 'selected' if value == 0 else '' }}>No liberado</option>
                                 </select>
