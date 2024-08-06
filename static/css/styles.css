@@ -201,3 +201,34 @@ form button:hover {
         font-size: 12px;
     }
 }
+/* Añade esto a tu archivo de estilos CSS o en un bloque <style> en el HTML */
+.custom-select {
+    appearance: none; /* Para quitar el estilo por defecto del navegador */
+    background-color: #fff; /* Fondo blanco */
+    border: 1px solid #ccc; /* Borde gris claro */
+    border-radius: 4px; /* Bordes redondeados */
+    padding: 8px 12px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de fuente */
+    color: #333; /* Color del texto */
+    cursor: pointer; /* Cursor en forma de mano */
+    width: 100%; /* Ancho completo */
+    box-sizing: border-box; /* Incluye el borde y padding en el ancho total */
+}
+
+/* Estilo para el contenedor del select si es necesario */
+.custom-select-container {
+    position: relative; /* Posicionamiento relativo para el contenedor */
+    width: 100%; /* Ancho completo */
+}
+
+/* Opcional: Flecha personalizada para el select */
+.custom-select::after {
+    content: '▼'; /* Símbolo de flecha */
+    position: absolute; /* Posicionamiento absoluto */
+    right: 12px; /* Espaciado desde la derecha */
+    top: 50%; /* Centro vertical */
+    transform: translateY(-50%); /* Centra verticalmente */
+    pointer-events: none; /* Ignora eventos del cursor */
+    color: #666; /* Color de la flecha */
+}
+

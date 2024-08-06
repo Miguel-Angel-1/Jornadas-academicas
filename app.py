@@ -60,9 +60,9 @@ def profesor_dashboard():
                         # Añadir nueva columna antes de 'Conteo'
                         if 'Conteo' in columns:
                             conteo_index = columns.index('Conteo')
-                            cursor.execute(f"ALTER TABLE tabla_profesores ADD COLUMN `{column_name}` VARCHAR(255) AFTER `{columns[conteo_index-1]}`")
+                            cursor.execute(f"ALTER TABLE tabla_profesores ADD COLUMN `{column_name}` VARCHAR(255) NULL AFTER `{columns[conteo_index-1]}`")
                         else:
-                            cursor.execute(f"ALTER TABLE tabla_profesores ADD COLUMN `{column_name}` VARCHAR(255)")
+                            cursor.execute(f"ALTER TABLE tabla_profesores ADD COLUMN `{column_name}` VARCHAR(255) NULL")
 
                         conn.commit()
                         cursor.close()
@@ -115,24 +115,6 @@ def profesor_dashboard():
             return redirect(url_for('login'))
     return redirect(url_for('login'))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Ruta para la edición del registro
 @app.route('/edit_record/<int:record_id>', methods=['GET', 'POST'])
 def edit_record(record_id):
@@ -142,8 +124,10 @@ def edit_record(record_id):
                 conn = get_db_connection()
                 cursor = conn.cursor()
                 for column, value in request.form.items():
-                    # Evita actualizar la columna `id`
                     if column != 'id':
+                        # Convertir los valores de los select a booleanos antes de actualizar en la base de datos
+                        if column in ['ate', 'est']:
+                            value = 1 if value == '1' else 0
                         cursor.execute(f"UPDATE tabla_profesores SET {column} = %s WHERE id = %s", (value, record_id))
                 conn.commit()
                 cursor.close()
@@ -155,7 +139,7 @@ def edit_record(record_id):
 
         try:
             conn = get_db_connection()
-            cursor = conn.cursor(dictionary=True)  # Usa dictionary=True para obtener resultados como diccionario
+            cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM tabla_profesores WHERE id = %s", (record_id,))
             record = cursor.fetchone()
             cursor.close()
@@ -169,8 +153,6 @@ def edit_record(record_id):
             flash(f"Error en la base de datos: {err}", 'error')
             return redirect(url_for('profesor_dashboard'))
     return redirect(url_for('login'))
-
-
 
 # Ruta para eliminar un valor
 @app.route('/delete_value/<int:record_id>', methods=['POST'])
@@ -189,8 +171,6 @@ def delete_value(record_id):
             flash(f"Error en la base de datos: {err}", 'error')
         return redirect(url_for('profesor_dashboard'))
     return redirect(url_for('login'))
-
-
 
 @app.route('/alumno_dashboard')
 def alumno_dashboard():
