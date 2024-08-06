@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel del Profesor</title>
+     <!-- Enlace a Font Awesome para los iconos -->
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Panel del Profesor</h1>
+        </header>
+        <main>
+            <!-- Mensajes de flash -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <ul class="flash-messages">
+                        {% for category, message in messages %}
+                            <li class="{{ category }}">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            {% endwith %}
+
+            <!-- Formulario para agregar y eliminar columnas -->
+            <form method="post">
+                <div>
+                    <label for="column_name">Nombre de la columna:</label>
+                    <input type="text" id="column_name" name="column_name" required>
+                </div>
+                <button type="submit" name="add_column">Agregar Columna</button>
+                <button type="submit" name="remove_column">Eliminar Columna</button>
+            </form>
+
+            <!-- Tabla de registros -->
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        {% for column in columns %}
+                            <th>{{ column }}</th>
+                        {% endfor %}
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                        <tr>
+                            {% for column in columns %}
+                                <td>
+                                    {% if columns.index(column) > columns.index('Nombres') and columns.index(column) < columns.index('Conteo') %}
+                                        {% if row[column] is none or row[column] == '' %}
+                                            <i class="fas fa-times"></i>
+                                        {% else %}
+                                            <i class="fas fa-check"></i>
+                                        {% endif %}
+                                    {% else %}
+                                        {{ row[column] if column in row else '' }}
+                                    {% endif %}
+                                </td>
+                            {% endfor %}
+                            <td>
+                                <a href="{{ url_for('edit_record', record_id=row['id']) }}" class="btn">Editar</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>            
+        </main>
+    </div>
+</body>
+</html>
+

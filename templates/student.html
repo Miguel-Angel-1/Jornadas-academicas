@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Alumno</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Bienvenido, Alumno</h1>
+        </header>
+        <main>
+            <p>Este es el panel de control para alumnos.</p>
+            <a href="{{ url_for('logout') }}" class="btn">Cerrar sesion</a>
+        </main>
+    </div>
+</body>
+</html>
