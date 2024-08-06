@@ -60,9 +60,9 @@ def profesor_dashboard():
                         # Añadir nueva columna antes de 'Conteo'
                         if 'Conteo' in columns:
                             conteo_index = columns.index('Conteo')
-                            cursor.execute(f"ALTER TABLE tabla_profesores ADD COLUMN `{column_name}` VARCHAR(255) AFTER `{columns[conteo_index-1]}`")
+                            cursor.execute(f"ALTER TABLE tabla_profesores ADD COLUMN `{column_name}` VARCHAR(255) NULL AFTER `{columns[conteo_index-1]}`")
                         else:
-                            cursor.execute(f"ALTER TABLE tabla_profesores ADD COLUMN `{column_name}` VARCHAR(255)")
+                            cursor.execute(f"ALTER TABLE tabla_profesores ADD COLUMN `{column_name}` VARCHAR(255) NULL")
 
                         conn.commit()
                         cursor.close()
@@ -115,24 +115,6 @@ def profesor_dashboard():
             return redirect(url_for('login'))
     return redirect(url_for('login'))
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 # Ruta para la edición del registro
 @app.route('/edit_record/<int:record_id>', methods=['GET', 'POST'])
 def edit_record(record_id):
@@ -172,11 +154,6 @@ def edit_record(record_id):
             return redirect(url_for('profesor_dashboard'))
     return redirect(url_for('login'))
 
-
-
-
-
-
 # Ruta para eliminar un valor
 @app.route('/delete_value/<int:record_id>', methods=['POST'])
 def delete_value(record_id):
@@ -194,8 +171,6 @@ def delete_value(record_id):
             flash(f"Error en la base de datos: {err}", 'error')
         return redirect(url_for('profesor_dashboard'))
     return redirect(url_for('login'))
-
-
 
 @app.route('/alumno_dashboard')
 def alumno_dashboard():
