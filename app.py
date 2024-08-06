@@ -142,8 +142,10 @@ def edit_record(record_id):
                 conn = get_db_connection()
                 cursor = conn.cursor()
                 for column, value in request.form.items():
-                    # Evita actualizar la columna `id`
                     if column != 'id':
+                        # Convertir los valores de los select a booleanos antes de actualizar en la base de datos
+                        if column in ['ate', 'est']:
+                            value = 1 if value == '1' else 0
                         cursor.execute(f"UPDATE tabla_profesores SET {column} = %s WHERE id = %s", (value, record_id))
                 conn.commit()
                 cursor.close()
@@ -155,7 +157,7 @@ def edit_record(record_id):
 
         try:
             conn = get_db_connection()
-            cursor = conn.cursor(dictionary=True)  # Usa dictionary=True para obtener resultados como diccionario
+            cursor = conn.cursor(dictionary=True)
             cursor.execute("SELECT * FROM tabla_profesores WHERE id = %s", (record_id,))
             record = cursor.fetchone()
             cursor.close()
@@ -169,6 +171,9 @@ def edit_record(record_id):
             flash(f"Error en la base de datos: {err}", 'error')
             return redirect(url_for('profesor_dashboard'))
     return redirect(url_for('login'))
+
+
+
 
 
 

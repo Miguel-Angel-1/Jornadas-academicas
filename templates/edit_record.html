@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Registro</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Enlace a Font Awesome para los iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
@@ -17,10 +19,20 @@
                     {% if column not in ['id', 'Conteo'] %}
                         <div class="form-group">
                             <label for="{{ column }}">{{ column }}:</label>
-                            {% if column in ['aP', 'aM', 'Nombres', 'ate', 'est'] %}
+                            {% if column in ['aP', 'aM', 'Nombres'] %}
                                 <input type="text" name="{{ column }}" id="{{ column }}" value="{{ value if value is not none else '' }}">
+                            {% elif column == 'ate' %}
+                                <select name="{{ column }}" id="{{ column }}">
+                                    <option value="1" {{ 'selected' if value == 1 else '' }}>Atendido</option>
+                                    <option value="0" {{ 'selected' if value == 0 else '' }}>No atendido</option>
+                                </select>
+                            {% elif column == 'est' %}
+                                <select name="{{ column }}" id="{{ column }}">
+                                    <option value="1" {{ 'selected' if value == 1 else '' }}>Liberado</option>
+                                    <option value="0" {{ 'selected' if value == 0 else '' }}>No liberado</option>
+                                </select>
                             {% else %}
-                                <!-- Botón para eliminar el valor de esta celda -->
+                                <input type="text" name="{{ column }}" id="{{ column }}" value="{{ value if value is not none else '' }}">
                                 <button type="button" onclick="deleteValue('{{ column }}')">Eliminar</button>
                             {% endif %}
                         </div>
